@@ -327,7 +327,11 @@ public class CalculatorApp {
                         operator = "";
                         result = 0.0;
                     } else if (buttonText.equals("Del")) {
-                        // TODO: Remove last character from display
+                        displayText = displayField.getText();
+                        if (!displayText.isEmpty()) {
+                            displayText = displayText.substring(0, displayText.length()-1);
+                            displayField.setText(displayText);
+                        } 
                     }
                 }
             });
