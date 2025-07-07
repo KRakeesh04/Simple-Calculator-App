@@ -14,7 +14,6 @@ public class CalculatorApp {
     private JTextField displayField = new JTextField();
     private JPanel buttonPanel = new JPanel();
     private JPanel historyPanel = new JPanel();
-    private JPanel mainPanel = new JPanel();
     private JButton addButton, subButton, mulButton, divButton, eqButton, 
                     clrButton, delButton, historyButton, dotButton, 
                     percentageButton, sqrtButton, squareButton, modButton, clrHistoryButton;
@@ -22,7 +21,7 @@ public class CalculatorApp {
     private String displayText = "";
 
     public CalculatorApp() {
-        // Image icon = new ImageIcon("Calculator_icon.webp").getImage(); 
+
         Image icon = new ImageIcon(getClass().getResource("Calculator_icon.jpg")).getImage();
         JFrame mainFrame = new JFrame();
         mainFrame.setTitle("Simple Calculator");
@@ -33,7 +32,7 @@ public class CalculatorApp {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setResizable(false);
 
-
+        // Number display field 
         displayField.setBounds(30, 40, 340, 50);
         displayField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         displayField.setHorizontalAlignment(JTextField.RIGHT);
@@ -44,7 +43,7 @@ public class CalculatorApp {
 
         mainFrame.add(displayField);
 
-
+        // clear History button 
         clrHistoryButton = new JButton("Clear History");
         clrHistoryButton.setBounds(200, 130, 150, 20);
         clrHistoryButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -72,6 +71,7 @@ public class CalculatorApp {
 
         mainFrame.add(clrHistoryButton);
 
+        // History button
         historyButton = new JButton("Show History");
         historyButton.setBounds(30, 130, 150, 20);
         historyButton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -79,7 +79,7 @@ public class CalculatorApp {
         historyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // historyButton.setText(displayText.equals("Show History") ? "Hide History" : "Show History");
+
                 if (historyPanel.isVisible()) {
                     historyButton.setText("Show History");
                     clrHistoryButton.setVisible(false);
@@ -88,9 +88,9 @@ public class CalculatorApp {
                     clrHistoryButton.setVisible(true);
                 }
                 historyPanel.setVisible(!historyPanel.isVisible());
-                // Update the history panel with the latest history
+                buttonPanel.setVisible(!historyPanel.isVisible());
 
-                // History[0] = displayText; // Add current display text to history
+                // Update the history panel with the latest history
                 historyPanel.removeAll(); 
 
                 boolean hasHistory = false;
@@ -109,16 +109,15 @@ public class CalculatorApp {
                     historyPanel.add(noHistoryLabel);
                 }
 
-                historyPanel.revalidate(); // Refresh the panel to show updated history
-                historyPanel.repaint(); // Repaint the panel to reflect changes
-                // Show or hide the clear history button based on history content
+                historyPanel.revalidate(); 
+                historyPanel.repaint();
                 clrHistoryButton.setVisible(historyPanel.isVisible() && History[History.length-1] != null);
             }
         });
 
         mainFrame.add(historyButton);
 
-
+        // History pannel
         historyPanel.setBounds(30, 160, 340, 370);
         historyPanel.setBorder(BorderFactory.createTitledBorder("History"));
         historyPanel.setLayout(new GridLayout(10, 1, 5, 5));    // need to adjust the size
@@ -229,7 +228,6 @@ public class CalculatorApp {
                                     break;
 
                                 case "%":
-                                    // TODO: Implement percentage calculation
                                     if (!displayText.isEmpty()) {
                                         result = Double.parseDouble(displayText) / 100; // Percentage calculation
                                     } else {
@@ -247,26 +245,30 @@ public class CalculatorApp {
                                     break;
 
                                 case "mod":
-                                    // if ( !String.valueOf(num1).contains(".") && !String.valueOf(num2).contains(".") ) { }
-                                    try {
-                                        
+                                    // TODO: need to fix for number input like eg: "45.0"
+                                    if (!String.valueOf(num1).contains(".") && !String.valueOf(num2).contains(".")) {
                                         result = Math.floorMod((int)num1, (int)num2);
-                                    } catch (IllegalArgumentException ex) {
+                                    } else {
                                         JOptionPane.showMessageDialog(mainFrame, "Modulus division is only defined for integers", "Error", JOptionPane.ERROR_MESSAGE);
                                         return;
                                     }
+                                    // try {  
+                                    //     result = Math.floorMod((int)num1, (int)num2);
+                                    // } catch (IllegalArgumentException ex) {
+                                    //     JOptionPane.showMessageDialog(mainFrame, "Modulus division is only defined for integers", "Error", JOptionPane.ERROR_MESSAGE);
+                                    //     return;
+                                    // }
                                     break;
 
                                 default:
                                     JOptionPane.showMessageDialog(mainFrame, "Invalid operator", "Error", JOptionPane.ERROR_MESSAGE);
                                     return;
                             }
-
+                            // TODO: need to approximate the numbers for the result
                             displayText = String.valueOf(result); // Update displayText with result
                             displayField.setText(displayText);
 
-                            // TODO: Add result to history
-                            // now only update the last calculation in history need to change it later
+                            
                             if (History.length == 10) {
                                 for (int i = 0; i < History.length - 1; i++) {
                                     History[i] = History[i + 1]; // Shift history
