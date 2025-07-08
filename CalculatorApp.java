@@ -3,6 +3,7 @@ import javax.swing.border.Border;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class CalculatorApp {
     private double num1 = 0.0;
@@ -22,10 +23,13 @@ public class CalculatorApp {
 
     public CalculatorApp() {
 
-        Image icon = new ImageIcon(getClass().getResource("Calculator_icon.jpg")).getImage();
         JFrame mainFrame = new JFrame();
         mainFrame.setTitle("Simple Calculator");
-        mainFrame.setIconImage(icon); 
+        // Image icon = new ImageIcon("Calculator_icon.png").getImage();
+        // mainFrame.setIconImage(icon); 
+        Image icon = new ImageIcon(new File("Calculator_icon.jpg").getAbsolutePath()).getImage();
+        mainFrame.setIconImage(icon);
+
         mainFrame.setLayout(null); // Use null layout for custom positioning
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setSize(400, 600);
@@ -40,6 +44,7 @@ public class CalculatorApp {
         displayField.setFocusable(false);
         displayField.setFont(new Font("Arial", Font.PLAIN, 24));
         displayField.setEditable(false);
+        // TODO: limit the digits
 
         mainFrame.add(displayField);
 
@@ -252,13 +257,6 @@ public class CalculatorApp {
                                         JOptionPane.showMessageDialog(mainFrame, "Modulus division is only defined for integers", "Error", JOptionPane.ERROR_MESSAGE);
                                         return;
                                     }
-                                    // try {  
-                                    //     result = Math.floorMod((int)num1, (int)num2);
-                                    // } catch (IllegalArgumentException ex) {
-                                    //     JOptionPane.showMessageDialog(mainFrame, "Modulus division is only defined for integers", "Error", JOptionPane.ERROR_MESSAGE);
-                                    //     return;
-                                    // }
-                                    break;
 
                                 default:
                                     JOptionPane.showMessageDialog(mainFrame, "Invalid operator", "Error", JOptionPane.ERROR_MESSAGE);
