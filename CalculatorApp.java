@@ -245,9 +245,9 @@ public class CalculatorApp {
                                     break;
 
                                 case "mod":
-                                    // TODO: need to fix for number input like eg: "45.0"
-                                    if (!String.valueOf(num1).contains(".") && !String.valueOf(num2).contains(".")) {
+                                    if (isInteger(num1) && isInteger(num2)) {
                                         result = Math.floorMod((int)num1, (int)num2);
+                                        break;
                                     } else {
                                         JOptionPane.showMessageDialog(mainFrame, "Modulus division is only defined for integers", "Error", JOptionPane.ERROR_MESSAGE);
                                         return;
@@ -439,6 +439,20 @@ public class CalculatorApp {
     //     button.setPreferredSize(new Dimension(58, 64));
     //     panel.add(button, gbc);
     // }
+
+    private boolean isInteger(double num) {
+        if (!String.valueOf(num).contains(".")) {
+            return true;
+        } else {
+            String numVal = String.valueOf(num);
+            String decimalVal = numVal.substring(numVal.indexOf('.')+1);
+            if (Integer.parseInt(decimalVal) == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
 
     public static void main(String[] args) {
